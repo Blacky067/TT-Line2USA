@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "RestService",
 		"typeProperties": {
-			"url": " \thttp://dummy.restapiexample.com/api/v1/employees",
+			"url": "http://dummy.restapiexample.com/api/v1/employees",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		}
