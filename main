@@ -5,3 +5,6 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/Blacky067/TT-Line2USA.git
 git push -u origin main
+
+git config --global user.email "dennis.schwarz1996@web.de"
+git config --global user.name "Blacky067"
