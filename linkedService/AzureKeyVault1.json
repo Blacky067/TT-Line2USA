@@ -1,0 +1,11 @@
+{
+	"name": "AzureKeyVault1",
+	"properties": {
+		"description": "Vault Key für die s3 Buckets",
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://KeyVaultTTLine.vault.azure.net/"
+		}
+	}
+}
