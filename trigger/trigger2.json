@@ -7,6 +7,12 @@
 			"pipelineReference": {
 				"referenceName": "CopyNewFilesByLastModifiedDate",
 				"type": "PipelineReference"
+			},
+			"parameters": {
+				"LastModified_From": {
+					"type": "Expression",
+					"value": "@trigger().outputs.windowStartTime"
+				}
 			}
 		},
 		"type": "TumblingWindowTrigger",
