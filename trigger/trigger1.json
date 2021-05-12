@@ -1,0 +1,31 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipeline": {
+			"pipelineReference": {
+				"referenceName": "CopyNewFilesByLastModifiedDate",
+				"type": "PipelineReference"
+			},
+			"parameters": {
+				"FolderPath_Source": "quelle",
+				"FolderPath_Destination": "ziel",
+				"LastModified_From": "@trigger().outputs.windowStartTime.",
+				"LastModified_To": "@trigger().outputs.windowEndTime."
+			}
+		},
+		"type": "TumblingWindowTrigger",
+		"typeProperties": {
+			"frequency": "Minute",
+			"interval": 15,
+			"startTime": "2021-05-12T12:00:00Z",
+			"delay": "00:00:00",
+			"maxConcurrency": 50,
+			"retryPolicy": {
+				"intervalInSeconds": 30
+			},
+			"dependsOn": []
+		}
+	}
+}
