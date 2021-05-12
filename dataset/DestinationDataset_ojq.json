@@ -1,0 +1,17 @@
+{
+	"name": "DestinationDataset_ojq",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorageforDelta",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "ziel"
+			}
+		}
+	}
+}
