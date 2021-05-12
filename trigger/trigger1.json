@@ -3,18 +3,6 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Stopped",
-		"pipeline": {
-			"pipelineReference": {
-				"referenceName": "CopyNewFilesByLastModifiedDate",
-				"type": "PipelineReference"
-			},
-			"parameters": {
-				"FolderPath_Source": "quelle",
-				"FolderPath_Destination": "ziel",
-				"LastModified_From": "@trigger().outputs.windowStartTime",
-				"LastModified_To": "@trigger().outputs.windowEndTime"
-			}
-		},
 		"type": "TumblingWindowTrigger",
 		"typeProperties": {
 			"frequency": "Minute",
