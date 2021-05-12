@@ -37,6 +37,18 @@
 		},
 		"Trigger_ojq_properties_pipeline_parameters_windowEnd": {
 			"value": "@trigger().outputs.windowEndTime"
+		},
+		"trigger1_properties_pipeline_parameters_FolderPath_Source": {
+			"value": "quelle"
+		},
+		"trigger1_properties_pipeline_parameters_FolderPath_Destination": {
+			"value": "ziel"
+		},
+		"trigger1_properties_pipeline_parameters_LastModified_From": {
+			"value": "@trigger().outputs.windowStartTime."
+		},
+		"trigger1_properties_pipeline_parameters_LastModified_To": {
+			"value": "@trigger().outputs.windowEndTime."
 		}
 	}
 }

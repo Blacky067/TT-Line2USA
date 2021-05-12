@@ -51,6 +51,22 @@
 			"type": "string",
 			"defaultValue": "@trigger().outputs.windowEndTime"
 		},
+		"trigger1_properties_pipeline_parameters_FolderPath_Source": {
+			"type": "string",
+			"defaultValue": "quelle"
+		},
+		"trigger1_properties_pipeline_parameters_FolderPath_Destination": {
+			"type": "string",
+			"defaultValue": "ziel"
+		},
+		"trigger1_properties_pipeline_parameters_LastModified_From": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowStartTime."
+		},
+		"trigger1_properties_pipeline_parameters_LastModified_To": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime."
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI für Speicherkonto mit verknüpften ARM-Vorlagen"
@@ -114,6 +130,38 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "TT-Line2USA_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"trigger1_properties_pipeline_parameters_FolderPath_Source": {
+						"value": "[parameters('trigger1_properties_pipeline_parameters_FolderPath_Source')]"
+					},
+					"trigger1_properties_pipeline_parameters_FolderPath_Destination": {
+						"value": "[parameters('trigger1_properties_pipeline_parameters_FolderPath_Destination')]"
+					},
+					"trigger1_properties_pipeline_parameters_LastModified_From": {
+						"value": "[parameters('trigger1_properties_pipeline_parameters_LastModified_From')]"
+					},
+					"trigger1_properties_pipeline_parameters_LastModified_To": {
+						"value": "[parameters('trigger1_properties_pipeline_parameters_LastModified_To')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'TT-Line2USA_ArmTemplate_0')]"
+			]
 		}
 	]
 }
