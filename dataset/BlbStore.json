@@ -13,7 +13,9 @@
 				"fileName": {
 					"value": "@CONCAT('Incremental - ', pipeline().RunId, '.text')",
 					"type": "Expression"
-				}
+				},
+				"folderPath": "incrementalcopy",
+				"container": "adfdeltacopy"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
