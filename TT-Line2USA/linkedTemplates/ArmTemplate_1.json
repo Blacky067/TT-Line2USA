@@ -7,21 +7,13 @@
 			"metadata": "Data Factory-Name",
 			"defaultValue": "TT-Line2USA"
 		},
-		"trigger1_properties_pipeline_parameters_FolderPath_Source": {
+		"Trigger_ojq_properties_pipeline_parameters_windowStart": {
 			"type": "string",
-			"defaultValue": "quelle"
+			"defaultValue": "@trigger().outputs.windowStartTime"
 		},
-		"trigger1_properties_pipeline_parameters_FolderPath_Destination": {
+		"Trigger_ojq_properties_pipeline_parameters_windowEnd": {
 			"type": "string",
-			"defaultValue": "ziel"
-		},
-		"trigger1_properties_pipeline_parameters_LastModified_From": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowStartTime."
-		},
-		"trigger1_properties_pipeline_parameters_LastModified_To": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndTime."
+			"defaultValue": "@trigger().outputs.windowEndTime"
 		}
 	},
 	"variables": {
@@ -29,7 +21,151 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"name": "[concat(parameters('factoryName'), '/DeltacopyfromBlobPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_ojq",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "quelle//"
+							},
+							{
+								"name": "Destination",
+								"value": "ziel//"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"modifiedDatetimeStart": {
+										"value": "@pipeline().parameters.windowStart",
+										"type": "Expression"
+									},
+									"modifiedDatetimeEnd": {
+										"value": "@pipeline().parameters.windowEnd",
+										"type": "Expression"
+									},
+									"wildcardFileName": "*"
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": false,
+							"skipErrorFile": {
+								"fileMissing": true
+							},
+							"validateDataConsistency": false
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_ojq",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_ojq",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"parameters": {
+					"windowStart": {
+						"type": "String"
+					},
+					"windowEnd": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "RestSource",
+								"httpRequestTimeout": "00:01:40",
+								"requestInterval": "00.00:00:00.010",
+								"requestMethod": "GET"
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "RestResource1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Json1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Trigger_ojq')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -37,14 +173,18 @@
 				"runtimeState": "Stopped",
 				"pipeline": {
 					"pipelineReference": {
-						"referenceName": "CopyNewFilesByLastModifiedDate",
+						"referenceName": "DeltacopyfromBlobPipeline",
 						"type": "PipelineReference"
 					},
 					"parameters": {
-						"FolderPath_Source": "[parameters('trigger1_properties_pipeline_parameters_FolderPath_Source')]",
-						"FolderPath_Destination": "[parameters('trigger1_properties_pipeline_parameters_FolderPath_Destination')]",
-						"LastModified_From": "[parameters('trigger1_properties_pipeline_parameters_LastModified_From')]",
-						"LastModified_To": "[parameters('trigger1_properties_pipeline_parameters_LastModified_To')]"
+						"windowStart": {
+							"type": "Expression",
+							"value": "[parameters('Trigger_ojq_properties_pipeline_parameters_windowStart')]"
+						},
+						"windowEnd": {
+							"type": "Expression",
+							"value": "[parameters('Trigger_ojq_properties_pipeline_parameters_windowEnd')]"
+						}
 					}
 				},
 				"type": "TumblingWindowTrigger",
@@ -60,7 +200,9 @@
 					"dependsOn": []
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/DeltacopyfromBlobPipeline')]"
+			]
 		}
 	]
 }
