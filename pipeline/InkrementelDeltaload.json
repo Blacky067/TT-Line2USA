@@ -140,7 +140,7 @@
 					"storedProcedureName": "[dbo].[usp_write_watermark]",
 					"storedProcedureParameters": {
 						"LastModifiedTime": {
-							"value": "@{activity('LkpNewWatermarkActivity').output.firstRow.NewWatermarkvalue}",
+							"value": "@{activity('LkpNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}",
 							"type": "Datetime"
 						},
 						"TableName": {
