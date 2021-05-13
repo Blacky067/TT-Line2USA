@@ -1,0 +1,12 @@
+{
+	"name": "Datascr",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseforWatermark",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

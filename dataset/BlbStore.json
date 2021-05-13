@@ -1,0 +1,24 @@
+{
+	"name": "BlbStore",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@CONCAT('Incremental - ', pipeline().RunId, '.text')",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
