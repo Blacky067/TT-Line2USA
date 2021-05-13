@@ -79,7 +79,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "select * from Customerdatabase where Lastmodifytime > '@{activity('LkpOldWatermark').output.firstRow.Watermarkvalue}' and LastModifytime < = '@{activity('LkpNewWartermarkActivity').output.firstRow.NewWatermarkvalue}'",
+						"sqlReaderQuery": "select * from dbo.Customerdatabase where Lastmodifytime > '@{activity('LkpOldWatermark').output.firstRow.WatermarkValue}' and LastModifytime  <= '@{activity('LkpNewWaterMarkActivity').output.firstRow.NewWatermarkvalue}'\n",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
